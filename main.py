@@ -69,6 +69,13 @@ while True:
         else:
             snake_body.pop()
 
+        if (
+            not 0 <= new_head[0] <= CELL_NUM - 1
+            or not 0 <= new_head[1] <= CELL_NUM - 1
+            or new_head in snake_body[1:]
+        ):
+            break
+
         field.DrawRectangle((0, 0), (FIELD_SIZE, FIELD_SIZE), "black")
 
         top_left, bottom_right = convert_position_to_pixels(apple_pos)
