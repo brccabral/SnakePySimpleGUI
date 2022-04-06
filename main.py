@@ -1,4 +1,12 @@
+from typing import Tuple
 import PySimpleGUI as sg
+
+
+def convert_position_to_pixels(cell: Tuple[int, int]):
+    top_left = cell[0] * CELL_SIZE, cell[1] * CELL_SIZE
+    bottom_right = top_left[0] + CELL_SIZE, top_left[1] + CELL_SIZE
+    return top_left, bottom_right
+
 
 # game constants
 FIELD_SIZE = 400
@@ -34,9 +42,7 @@ while True:
     if event == "Down:116":
         print("down")
 
-    top_left = apple_pos[0] * CELL_SIZE, apple_pos[1] * CELL_SIZE
-    bottom_right = top_left[0] + CELL_SIZE, top_left[1] + CELL_SIZE
-
+    top_left, bottom_right = convert_position_to_pixels(apple_pos)
     field.draw_rectangle(top_left, bottom_right, "red")
 
 window.close()
