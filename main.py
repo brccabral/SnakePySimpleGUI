@@ -1,6 +1,12 @@
 import PySimpleGUI as sg
 
+# game constants
 FIELD_SIZE = 400
+CELL_NUM = 10
+CELL_SIZE = FIELD_SIZE / CELL_NUM
+
+# apple
+apple_pos = (2, 4)
 
 sg.theme("Green")
 
@@ -15,7 +21,7 @@ layout = [[field]]
 window = sg.Window("Snake", layout, return_keyboard_events=True)
 
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=10)
     if event == sg.WIN_CLOSED:
         break
 
@@ -27,5 +33,10 @@ while True:
         print("right")
     if event == "Down:116":
         print("down")
+
+    top_left = apple_pos[0] * CELL_SIZE, apple_pos[1] * CELL_SIZE
+    bottom_right = top_left[0] + CELL_SIZE, top_left[1] + CELL_SIZE
+
+    field.draw_rectangle(top_left, bottom_right, "red")
 
 window.close()
