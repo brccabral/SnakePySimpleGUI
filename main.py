@@ -1,3 +1,4 @@
+import time
 from typing import Tuple
 import PySimpleGUI as sg
 
@@ -16,7 +17,7 @@ DIRECTIONS = {"left": (-1, 0), "right": (1, 0), "up": (0, 1), "down": (0, -1)}
 
 # snake
 snake_body = [(4, 4), (3, 4), (2, 4)]
-
+direction = DIRECTIONS["up"]
 
 # apple
 apple_pos = (7, 4)
@@ -33,6 +34,7 @@ layout = [[field]]
 
 window = sg.Window("Snake", layout, return_keyboard_events=True)
 
+start_time = time.time()
 while True:
     event, values = window.read(timeout=10)
     if event == sg.WIN_CLOSED:
@@ -47,13 +49,24 @@ while True:
     if event == "Down:116":
         print("down")
 
-    top_left, bottom_right = convert_position_to_pixels(apple_pos)
-    field.draw_rectangle(top_left, bottom_right, "red")
+    time_size_start = time.time() - start_time
+    if time_size_start >= 0.5:
+        start_time = time.time()
 
-    # draw snake
-    for index, part in enumerate(snake_body):
-        top_left, bottom_right = convert_position_to_pixels(part)
-        color = "yellow" if index == 0 else "green"
-        field.draw_rectangle(top_left, bottom_right, color)
+        # snake update
+        new_head = snake_body[0][0] + direction[0], snake_body[0][1] + direction[1]
+        snake_body.insert(0, new_head)
+        snake_body.pop()
+
+        field.DrawRectangle((0, 0), (FIELD_SIZE, FIELD_SIZE), "black")
+
+        top_left, bottom_right = convert_position_to_pixels(apple_pos)
+        field.draw_rectangle(top_left, bottom_right, "red")
+
+        # draw snake
+        for index, part in enumerate(snake_body):
+            top_left, bottom_right = convert_position_to_pixels(part)
+            color = "yellow" if index == 0 else "green"
+            field.draw_rectangle(top_left, bottom_right, color)
 
 window.close()
