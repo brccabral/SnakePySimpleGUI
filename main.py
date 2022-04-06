@@ -12,9 +12,14 @@ def convert_position_to_pixels(cell: Tuple[int, int]):
 FIELD_SIZE = 400
 CELL_NUM = 10
 CELL_SIZE = FIELD_SIZE / CELL_NUM
+DIRECTIONS = {"left": (-1, 0), "right": (1, 0), "up": (0, 1), "down": (0, -1)}
+
+# snake
+snake_body = [(4, 4), (3, 4), (2, 4)]
+
 
 # apple
-apple_pos = (2, 4)
+apple_pos = (7, 4)
 
 sg.theme("Green")
 
@@ -44,5 +49,11 @@ while True:
 
     top_left, bottom_right = convert_position_to_pixels(apple_pos)
     field.draw_rectangle(top_left, bottom_right, "red")
+
+    # draw snake
+    for index, part in enumerate(snake_body):
+        top_left, bottom_right = convert_position_to_pixels(part)
+        color = "yellow" if index == 0 else "green"
+        field.draw_rectangle(top_left, bottom_right, color)
 
 window.close()
