@@ -41,13 +41,13 @@ while True:
         break
 
     if event == "Left:113":  # in tutorial video this was Left:37
-        print("left")
-    if event == "Up:111":
-        print("up")
-    if event == "Right:114":
-        print("right")
-    if event == "Down:116":
-        print("down")
+        direction = DIRECTIONS["left"]
+    elif event == "Up:111":
+        direction = DIRECTIONS["up"]
+    elif event == "Right:114":
+        direction = DIRECTIONS["right"]
+    elif event == "Down:116":
+        direction = DIRECTIONS["down"]
 
     time_size_start = time.time() - start_time
     if time_size_start >= 0.5:
