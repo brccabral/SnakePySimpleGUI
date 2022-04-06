@@ -1,3 +1,4 @@
+import random
 import time
 from typing import Tuple
 import PySimpleGUI as sg
@@ -7,6 +8,13 @@ def convert_position_to_pixels(cell: Tuple[int, int]):
     top_left = cell[0] * CELL_SIZE, cell[1] * CELL_SIZE
     bottom_right = top_left[0] + CELL_SIZE, top_left[1] + CELL_SIZE
     return top_left, bottom_right
+
+
+def place_apple():
+    apple_pos = random.randint(0, CELL_NUM - 1), random.randint(0, CELL_NUM - 1)
+    while apple_pos in snake_body:
+        apple_pos = random.randint(0, CELL_NUM - 1), random.randint(0, CELL_NUM - 1)
+    return apple_pos
 
 
 # game constants
@@ -20,7 +28,7 @@ snake_body = [(4, 4), (3, 4), (2, 4)]
 direction = DIRECTIONS["up"]
 
 # apple
-apple_pos = (7, 4)
+apple_pos = place_apple()
 
 sg.theme("Green")
 
@@ -56,7 +64,10 @@ while True:
         # snake update
         new_head = snake_body[0][0] + direction[0], snake_body[0][1] + direction[1]
         snake_body.insert(0, new_head)
-        snake_body.pop()
+        if new_head == apple_pos:
+            apple_pos = place_apple()
+        else:
+            snake_body.pop()
 
         field.DrawRectangle((0, 0), (FIELD_SIZE, FIELD_SIZE), "black")
 
