@@ -12,11 +12,20 @@ field = sg.Graph(
 )
 layout = [[field]]
 
-window = sg.Window("Snake", layout)
+window = sg.Window("Snake", layout, return_keyboard_events=True)
 
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:
         break
+
+    if event == "Left:113":  # in tutorial video this was Left:37
+        print("left")
+    if event == "Up:111":
+        print("up")
+    if event == "Right:114":
+        print("right")
+    if event == "Down:116":
+        print("down")
 
 window.close()
